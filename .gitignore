@@ -1,0 +1,4 @@
+tmp/main.exe
+tmp/build-errors.log
+app/database/models.db
+app/database/sessions.db
