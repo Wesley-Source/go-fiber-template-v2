@@ -1,1 +1,95 @@
-<h1>Index</h1>
+<div class="container">
+    <div class="hero is-primary is-bold mb-6">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Welcome to {{.Title}}
+                </h1>
+                <h2 class="subtitle">
+                    A modern Go web application template with authentication and more
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="columns is-multiline">
+        <!-- Feature Card 1 -->
+        <div class="column is-4">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content has-text-centered">
+                        <span class="icon is-large has-text-primary">
+                            <i class="fas fa-shield-alt fa-3x"></i>
+                        </span>
+                        <h4 class="title is-4 mt-4">Secure Authentication</h4>
+                        <p>Built-in user authentication with session management and security best practices.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature Card 2 -->
+        <div class="column is-4">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content has-text-centered">
+                        <span class="icon is-large has-text-primary">
+                            <i class="fas fa-bolt fa-3x"></i>
+                        </span>
+                        <h4 class="title is-4 mt-4">Modern Stack</h4>
+                        <p>Powered by Go Fiber, HTMX, Alpine.js, and Bulma CSS for a fast and interactive experience.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature Card 3 -->
+        <div class="column is-4">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content has-text-centered">
+                        <span class="icon is-large has-text-primary">
+                            <i class="fas fa-mobile-alt fa-3x"></i>
+                        </span>
+                        <h4 class="title is-4 mt-4">Responsive Design</h4>
+                        <p>Mobile-first approach ensuring your application looks great on all devices.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="columns is-centered">
+            <div class="column is-8 has-text-centered">
+                {{if not .User}}
+                    <p class="mb-4">Get started with your project today!</p>
+                    <div class="buttons is-centered">
+                        <a href="/register" class="button is-primary is-medium">
+                            <span class="icon">
+                                <i class="fas fa-user-plus"></i>
+                            </span>
+                            <span>Sign Up</span>
+                        </a>
+                        <a href="/login" class="button is-light is-medium">
+                            <span class="icon">
+                                <i class="fas fa-sign-in-alt"></i>
+                            </span>
+                            <span>Login</span>
+                        </a>
+                    </div>
+                {{else}}
+                    <p class="mb-4">Welcome back, {{.User.Name}}!</p>
+                    <div class="buttons is-centered">
+                        <a href="/dashboard" class="button is-primary is-medium">
+                            <span class="icon">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </span>
+                            <span>Go to Dashboard</span>
+                        </a>
+                    </div>
+                {{end}}
+            </div>
+        </div>
+    </div>
+</div>
