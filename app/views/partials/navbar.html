@@ -1,10 +1,10 @@
-<nav class="navbar" role="navigation" aria-label="main navigation">
+<nav class="navbar" role="navigation" aria-label="main navigation" x-data="{navbarActive: false}">
     <div class="navbar-brand">
         <a class="navbar-item" href="/">
             <strong>Your Logo</strong>
         </a>
 
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasic">
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" x-on:click="navbarActive = !navbarActive">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
@@ -12,7 +12,7 @@
         </a>
     </div>
 
-    <div id="navbarBasic" class="navbar-menu">
+    <div class="navbar-menu" :class="{ 'is-active': navbarActive }">
         <div class="navbar-start">
             <a class="navbar-item" href="/">
                 Home

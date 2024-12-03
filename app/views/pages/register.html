@@ -24,24 +24,30 @@
                     </div>
                     <div class="field">
                         <label for="password" class="label">Password</label>
-                        <div class="control has-icons-left">
-                            <input class="input" type="password" name="password" id="password" 
+                        <div class="control has-icons-left has-icons-right" x-data="{ showPassword: false }">
+                            <input class="input" :type="showPassword ? 'text' : 'password'" name="password" id="password" 
                                    placeholder="Choose a strong password" required
                                    oninput="document.getElementById('password_confirmation').pattern = this.value;">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-lock"></i>
                             </span>
+                            <span class="icon is-small is-right" style="pointer-events: all; cursor: pointer;" x-on:click="showPassword = !showPassword">
+                                <i class="fas" :class="{ 'fa-eye': !showPassword, 'fa-eye-slash': showPassword }"></i>
+                            </span>
                         </div>
                     </div>
                     <div class="field">
                         <label for="password_confirmation" class="label">Confirm Password</label>
-                        <div class="control has-icons-left">
-                            <input class="input" type="password" name="password_confirmation" 
+                        <div class="control has-icons-left has-icons-right" x-data="{ showPasswordConfirm: false }">
+                            <input class="input" :type="showPasswordConfirm ? 'text' : 'password'" name="password_confirmation" 
                                    id="password_confirmation" placeholder="Repeat your password" 
                                    required pattern=""
-                                   title="The password doesn't match">
+                                   title="The passwords must match">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-lock"></i>
+                            </span>
+                            <span class="icon is-small is-right" style="pointer-events: all; cursor: pointer;" x-on:click="showPasswordConfirm = !showPasswordConfirm">
+                                <i class="fas" :class="{ 'fa-eye': !showPasswordConfirm, 'fa-eye-slash': showPasswordConfirm }"></i>
                             </span>
                         </div>
                     </div>

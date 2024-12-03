@@ -16,10 +16,13 @@
 
                     <div class="field">
                         <label for="password" class="label">Password</label>
-                        <div class="control has-icons-left">
-                            <input class="input" type="password" name="password" id="password" placeholder="Enter your password" required>
+                        <div class="control has-icons-left has-icons-right" x-data="{ showPassword: false }">
+                            <input class="input" :type="showPassword ? 'text' : 'password'" name="password" id="password" placeholder="Enter your password" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-lock"></i>
+                            </span>
+                            <span class="icon is-small is-right" style="pointer-events: all; cursor: pointer;" x-on:click="showPassword = !showPassword">
+                                <i class="fas" :class="{ 'fa-eye': !showPassword, 'fa-eye-slash': showPassword }"></i>
                             </span>
                         </div>
                     </div>
