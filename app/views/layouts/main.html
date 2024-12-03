@@ -4,7 +4,10 @@
     {{template "partials/head" .}}
 </head>
 <body>
-    {{embed}}
+    {{template "partials/navbar" .}}
+    <section class="section">
+        {{embed}}
+    </section>
     {{template "partials/footer" .}}
 </body>
 </html>

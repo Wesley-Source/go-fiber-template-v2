@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"go-fiber-template-v2/app/database"
 	"log"
 	"os"
 	"time"
@@ -118,4 +119,13 @@ func HashPassword(password string) string {
 func ValidatePassword(hashedPassword string, password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 	return err == nil
+}
+
+func RegisterUser(c *fiber.Ctx) {
+	user := database.User{
+		Name:     c.FormValue("name"),
+		Email:    c.FormValue("email"),
+		Password: HashPassword(c.FormValue("password")),
+	}
+	database.Database.Create(&user)
 }

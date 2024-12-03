@@ -1,1 +1,65 @@
-<h1>Register</h1>
+<div class="container">
+    <div class="columns is-centered">
+        <div class="column is-half-desktop is-two-thirds-tablet">
+            <div class="box">
+                <h1 class="title has-text-centered mb-5">Create Account</h1>
+                <form hx-post="/register">
+                    <div class="field">
+                        <label for="name" class="label">Name</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" name="name" id="name" placeholder="Your full name" required>
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-user"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="email" class="label">Email</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="email" name="email" id="email" placeholder="your@email.com" required>
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="password" class="label">Password</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="password" name="password" id="password" 
+                                   placeholder="Choose a strong password" required
+                                   oninput="document.getElementById('password_confirmation').pattern = this.value;">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="password_confirmation" class="label">Confirm Password</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="password" name="password_confirmation" 
+                                   id="password_confirmation" placeholder="Repeat your password" 
+                                   required pattern=""
+                                   title="The password doesn't match">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field mt-5">
+                        <div class="control">
+                            <button type="submit" class="button is-primary is-fullwidth">
+                                <span class="icon">
+                                    <i class="fas fa-user-plus"></i>
+                                </span>
+                                <span>Register</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="has-text-centered mt-4">
+                        <p>Already have an account? <a href="/login">Login here</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
