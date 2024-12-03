@@ -44,51 +44,103 @@ A modern, secure, and feature-rich web application template built with Go Fiber,
 
 - Go 1.20 or higher
 - SQLite3
-- Node.js (for frontend asset management)
 
 ## 🚀 Quick Start
 
-1. **Clone the repository**
+1. **Use this template**
+   - Click the "Use this template" button at the top of this repository
+   - Choose "Create a new repository"
+   - Fill in your repository name and description
+   - Choose public or private visibility
+   - Click "Create repository from template"
+
+2. **Clone your new repository**
    ```bash
-   git clone https://github.com/yourusername/go-fiber-template-v2.git
-   cd go-fiber-template-v2
+   git clone https://github.com/your-username/your-repo-name.git
+   cd your-repo-name
    ```
 
-2. **Set up environment variables**
+3. **Set up environment variables**
    ```bash
    cp .env.example .env
    # Edit .env with your configuration
    ```
 
-3. **Install dependencies**
+4. **Install dependencies**
    ```bash
    go mod download
    ```
 
-4. **Run the application**
+5. **Run the application**
+
+   There are two ways to run the application:
+
+   **Option 1: Standard Go Run**
    ```bash
    go run main.go
-   # Or use Air for hot reloading
-   air
    ```
+
+   **Option 2: Using Air (Recommended for Development)**
+   
+   Air provides hot-reloading capabilities, which automatically rebuilds and restarts your application when files change.
+
+   First, install Air:
+   ```bash
+   # Using go install
+   go install github.com/cosmtrek/air@latest
+
+   # Or using curl (Windows PowerShell)
+   irm get.scoop.sh | iex
+   scoop install air
+   ```
+
+   Then run the application with Air:
+   ```bash
+   # Air will use the .air.toml configuration
+   air
+
+   # The application will automatically rebuild when you make changes
+   # You'll see output like:
+   #   watching .
+   #   building...
+   #   running...
+   ```
+
+   Air configuration (`.air.toml`) includes:
+   - Automatic rebuild on file changes
+   - Custom build commands
+   - Specific file extensions to watch
+   - Directories to exclude
+   - Custom build output location
 
 ## 📁 Project Structure
 
 ```
 go-fiber-template-v2/
 ├── app/
-│   ├── database/       # Database configurations and models
-│   ├── middleware/     # Custom middleware
-│   ├── public/         # Static assets
-│   ├── routes/         # Route handlers
-│   └── views/          # HTML templates
+│   ├── database/        # Database configurations and models
+│   ├── middleware/      # Authentication and session middleware
+│   ├── public/
+│   │   └── styles/     # CSS and other static assets
+│   ├── routes/         # HTTP route handlers
+│   └── views/
 │       ├── layouts/    # Base layout templates
-│       ├── pages/      # Page-specific templates
-│       └── partials/   # Reusable components
-├── .air.toml          # Air configuration for hot reload
-├── .env               # Environment variables
-├── go.mod            # Go dependencies
-└── main.go           # Application entry point
+│       │   └── main.html
+│       ├── pages/      # Page templates
+│       │   ├── 404.html
+│       │   ├── index.html
+│       │   ├── login.html
+│       │   └── register.html
+│       └── partials/   # Reusable template components
+│           ├── footer.html
+│           ├── head.html
+│           └── navbar.html
+├── .air.toml           # Air configuration for hot reload
+├── .env                # Environment variables
+├── .gitignore         # Git ignore rules
+├── go.mod             # Go module dependencies
+├── go.sum             # Go module checksums
+└── main.go            # Application entry point
 ```
 
 ## 🔒 Security Considerations
@@ -113,9 +165,8 @@ go-fiber-template-v2/
 
 Key configuration options in `.env`:
 ```env
-PORT=3000
-SESSION_SECRET=your-secret-key
-DB_PATH=./database.db
+PORT: :3000
+TITLE: Your App Name
 ```
 
 ## 🚧 Development
