@@ -3,7 +3,7 @@
         <div class="column is-half-desktop is-two-thirds-tablet">
             <div class="box">
                 <h1 class="title has-text-centered mb-5">Welcome Back</h1>
-                <form hx-post="/login">
+                <form hx-post="/login" hx-indicator="#progress-bar">
                     <div class="field">
                         <label for="email" class="label">Email</label>
                         <div class="control has-icons-left">
@@ -35,7 +35,7 @@
                             </label>
                         </div>
                     </div>
-
+                    <progress id="progress-bar" class="htmx-indicator progress is-small is-primary" max="100"></progress>
                     <div class="field mt-5">
                         <div class="control">
                             <button type="submit" class="button is-primary is-fullwidth">

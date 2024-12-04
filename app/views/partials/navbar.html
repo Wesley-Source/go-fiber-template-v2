@@ -4,7 +4,7 @@
             <strong>Your Logo</strong>
         </a>
 
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" x-on:click="navbarActive = !navbarActive">
+        <a role="button" class="navbar-burger" :class="{'is-active': navbarActive}" aria-label="menu" aria-expanded="false" x-on:click="navbarActive = !navbarActive">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>

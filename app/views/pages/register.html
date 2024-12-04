@@ -3,7 +3,7 @@
         <div class="column is-half-desktop is-two-thirds-tablet">
             <div class="box">
                 <h1 class="title has-text-centered mb-5">Create Account</h1>
-                <form hx-post="/register">
+                <form hx-post="/register" hx-indicator="#progress-bar">
                     <div class="field">
                         <label for="name" class="label">Name</label>
                         <div class="control has-icons-left">
@@ -51,6 +51,7 @@
                             </span>
                         </div>
                     </div>
+                    <progress id="progress-bar" class="htmx-indicator progress is-small is-primary" max="100"></progress>
                     <div class="field mt-5">
                         <div class="control">
                             <button type="submit" class="button is-primary is-fullwidth">
