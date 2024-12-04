@@ -21,6 +21,15 @@ func Render(c *fiber.Ctx, view string, partial ...bool) error {
 
 	data["Title"] = os.Getenv("TITLE")
 
+	if c.Locals("user_id") != nil && GetSessionCookie(c) != nil {
+		log.Println(c.Locals("user_id"))
+		user := database.SearchUserById(c.Locals("user_id").(uint))
+
+		data["UserID"] = GetSessionCookie(c)
+		data["Name"] = user.Name
+		data["Email"] = user.Email
+	}
+
 	if partial != nil && partial[0] {
 		return c.Render(view, data)
 	}
@@ -83,13 +92,24 @@ func Auth(c *fiber.Ctx) error {
 	return c.Next()
 }
 
+// SetSessionCookie stores the user ID in the session
+func SetSessionCookie(c *fiber.Ctx, id uint) {
+	session, err := Session.Get(c)
+	if err != nil {
+		log.Println("Failed to get session.")
+	}
+
+	// Saves the user_id as a cookie in the user's browser
+	session.Set("user_id", id)
+	session.Save()
+}
+
 // GetSessionCookie retrieves the user ID from the session
 func GetSessionCookie(c *fiber.Ctx) interface{} {
 	session, err := Session.Get(c)
 	if err != nil {
 		log.Println("Failed to get session.")
 	}
-
 	return session.Get("user_id")
 }
 
@@ -102,7 +122,6 @@ func ClearSessionCookie(c *fiber.Ctx) {
 		session.Delete("user_id")
 		session.Save()
 	}
-	c.ClearCookie("user_id")
 }
 
 // HashPassword generates a secure hash of the provided password

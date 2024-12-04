@@ -26,8 +26,22 @@ func ConnectDatabase() {
 	Database = db // Moving the variable to the global scope
 }
 
-func UserExists(email string) bool {
+func UserExistsbyEmail(email string) bool {
 	var user User
 	result := Database.Where("email = ?", email).First(&user)
 	return result.Error == nil // Retorna true se não houver erro (usuário encontrado)
+}
+
+func SearchUserById(id uint) User {
+	var user User
+
+	Database.Where("id = ?", id).First(&user)
+	return user
+}
+
+func SearchUserByEmail(email string) User {
+	var user User
+
+	Database.Where("email = ?", email).First(&user)
+	return user
 }

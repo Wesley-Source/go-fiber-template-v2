@@ -19,7 +19,7 @@ func Register(c *fiber.Ctx) error {
 
 	case "POST":
 		email := c.FormValue("email")
-		if !database.UserExists(email) {
+		if !database.UserExistsbyEmail(email) {
 			middleware.RegisterUser(c)
 			return middleware.Redirect(c, "pages/login", "/login")
 		}
@@ -28,6 +28,23 @@ func Register(c *fiber.Ctx) error {
 }
 
 func Login(c *fiber.Ctx) error {
+
+	switch c.Method() {
+	case "GET":
+		return middleware.Redirect(c, "pages/login", "/login")
+
+	case "POST":
+		email := c.FormValue("email")
+		password := c.FormValue("password")
+		if database.UserExistsbyEmail(email) {
+			user := database.SearchUserByEmail(email)
+			if middleware.ValidatePassword(user.Password, password) {
+				middleware.SetSessionCookie(c, user.ID)
+				return middleware.Redirect(c, "pages/index", "/")
+			}
+		}
+	}
+
 	return middleware.Redirect(c, "pages/login", "/login")
 }
 
@@ -36,6 +53,11 @@ func UnknownRoute(c *fiber.Ctx) error {
 }
 
 func Logout(c *fiber.Ctx) error {
-	middleware.ClearSessionCookie(c)
-	return middleware.Redirect(c, "pages/index", "/")
+
+	switch c.Method() {
+	case "GET":
+		middleware.ClearSessionCookie(c)
+		return middleware.Redirect(c, "pages/index", "/")
+	}
+	return UnknownRoute(c)
 }

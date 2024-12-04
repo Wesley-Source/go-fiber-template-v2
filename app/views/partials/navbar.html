@@ -42,6 +42,20 @@
             </div>
         </div>
 
+        {{if .UserID}}
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <a class="button is-primary" href="/dashboard">
+                        <strong>Dashboard</strong>
+                    </a>
+                    <a class="button is-light" href="/logout">
+                        Log out
+                    </a>
+                </div>
+            </div>
+        </div>
+        {{else}}
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
@@ -54,5 +68,6 @@
                 </div>
             </div>
         </div>
+        {{end}}
     </div>
 </nav>
