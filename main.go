@@ -39,11 +39,14 @@ func setupRoutes(app *fiber.App) {
 
 	app.Get("/login", middleware.Auth, routes.Login)
 	app.Post("/login", middleware.Auth, routes.Login)
+	app.Get("/check-email", routes.CheckEmail)
 
 	app.Get("/register", middleware.Auth, routes.Register)
 	app.Post("/register", middleware.Auth, routes.Register)
 
 	app.Get("/logout", middleware.Auth, routes.Logout)
 
-	app.Use(routes.UnknownRoute)
+	app.Get("/admin", middleware.Auth, middleware.AdminAuth, routes.Admin)
+
+	app.Use(middleware.UnknownAuth, routes.UnknownRoute)
 }

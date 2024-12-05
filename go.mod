@@ -8,6 +8,7 @@ require (
 	github.com/gofiber/template/html/v2 v2.1.2
 	github.com/gofiber/utils v1.1.0
 	github.com/joho/godotenv v1.5.1
+	github.com/patrickmn/go-cache v2.1.0+incompatible
 	golang.org/x/crypto v0.14.0
 	gorm.io/driver/sqlite v1.5.6
 	gorm.io/gorm v1.25.12

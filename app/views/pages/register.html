@@ -3,16 +3,39 @@
         <div class="column is-half-desktop is-two-thirds-tablet">
             <div class="box">
                 <h1 class="title has-text-centered mb-5">Create Account</h1>
-                <form hx-post="/register" hx-indicator="#progress-bar">
+                <form hx-post="/register" hx-indicator="#progress-bar" x-data="{
+                    name: '',
+                    email: '',
+                    get isNameValid() { return this.name.length >= 3 },
+                    password: '',
+                    confirmPassword: '',
+                    get isLengthValid() { return this.password.length >= 8 },
+                    get hasUpperCase() { return /[A-Z]/.test(this.password) },
+                    get hasNumber() { return /[0-9]/.test(this.password) },
+                    get hasSpecial() { return /[!@#$%^&*]/.test(this.password) },
+                    get isPasswordValid() { 
+                        return this.isLengthValid && this.hasUpperCase && this.hasNumber && this.hasSpecial 
+                    },
+                    get passwordsMatch() {
+                        return this.password === this.confirmPassword && this.password !== ''
+                    }
+                }">
                     <div class="field">
                         <label for="name" class="label">Name</label>
                         <div class="control has-icons-left">
-                            <input class="input" type="text" name="name" id="name" placeholder="Your full name" required>
+                            <input class="input" x-model="name" type="text" name="name" id="name" placeholder="John Doe" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-user"></i>
                             </span>
                         </div>
+                        <div class="help" x-show="name">
+                            <p :class="{'has-text-success': isNameValid, 'has-text-danger': !isNameValid}">
+                                <i class="fas" :class="isNameValid ? 'fa-check' : 'fa-times'"></i>
+                                At least 3 characters
+                            </p>
+                        </div>
                     </div>
+
                     <div class="field">
                         <label for="email" class="label">Email</label>
                         <div class="control has-icons-left">
@@ -22,50 +45,61 @@
                             </span>
                         </div>
                     </div>
+
                     <div class="field">
                         <label for="password" class="label">Password</label>
-                        <div class="control has-icons-left has-icons-right" x-data="{ showPassword: false }">
-                            <input class="input" :type="showPassword ? 'text' : 'password'" name="password" id="password" 
-                                   placeholder="Choose a strong password" required
-                                   oninput="document.getElementById('password_confirmation').pattern = this.value;">
+                        <div class="control has-icons-left">
+                            <input class="input" :class="{'is-success': isPasswordValid, 'is-danger': password && !isPasswordValid}"
+                                type="password" name="password" id="password" x-model="password" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-lock"></i>
                             </span>
-                            <span class="icon is-small is-right" style="pointer-events: all; cursor: pointer;" x-on:click="showPassword = !showPassword">
-                                <i class="fas" :class="{ 'fa-eye': !showPassword, 'fa-eye-slash': showPassword }"></i>
-                            </span>
+                        </div>
+                        <div class="help" x-show="password">
+                            <p :class="{'has-text-success': isLengthValid, 'has-text-danger': !isLengthValid}">
+                                <i class="fas" :class="isLengthValid ? 'fa-check' : 'fa-times'"></i>
+                                At least 8 characters
+                            </p>
+                            <p :class="{'has-text-success': hasUpperCase, 'has-text-danger': !hasUpperCase}">
+                                <i class="fas" :class="hasUpperCase ? 'fa-check' : 'fa-times'"></i>
+                                One uppercase letter
+                            </p>
+                            <p :class="{'has-text-success': hasNumber, 'has-text-danger': !hasNumber}">
+                                <i class="fas" :class="hasNumber ? 'fa-check' : 'fa-times'"></i>
+                                One number
+                            </p>
+                            <p :class="{'has-text-success': hasSpecial, 'has-text-danger': !hasSpecial}">
+                                <i class="fas" :class="hasSpecial ? 'fa-check' : 'fa-times'"></i>
+                                One special character (!@#$%^&*)
+                            </p>
                         </div>
                     </div>
+
                     <div class="field">
-                        <label for="password_confirmation" class="label">Confirm Password</label>
-                        <div class="control has-icons-left has-icons-right" x-data="{ showPasswordConfirm: false }">
-                            <input class="input" :type="showPasswordConfirm ? 'text' : 'password'" name="password_confirmation" 
-                                   id="password_confirmation" placeholder="Repeat your password" 
-                                   required pattern=""
-                                   title="The passwords must match">
+                        <label for="confirm-password" class="label">Confirm Password</label>
+                        <div class="control has-icons-left">
+                            <input class="input" :class="{'is-success': passwordsMatch && password, 'is-danger': !passwordsMatch && confirmPassword}"
+                                type="password" id="confirm-password" x-model="confirmPassword" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-lock"></i>
                             </span>
-                            <span class="icon is-small is-right" style="pointer-events: all; cursor: pointer;" x-on:click="showPasswordConfirm = !showPasswordConfirm">
-                                <i class="fas" :class="{ 'fa-eye': !showPasswordConfirm, 'fa-eye-slash': showPasswordConfirm }"></i>
-                            </span>
                         </div>
+                        <p class="help is-danger" x-show="!passwordsMatch && confirmPassword">
+                            Passwords do not match
+                        </p>
                     </div>
+
                     <progress id="progress-bar" class="htmx-indicator progress is-small is-primary" max="100"></progress>
                     <div class="field mt-5">
                         <div class="control">
-                            <button type="submit" class="button is-primary is-fullwidth">
-                                <span class="icon">
-                                    <i class="fas fa-user-plus"></i>
-                                </span>
-                                <span>Register</span>
-                            </button>
+                            <button type="submit" class="button is-primary is-fullwidth" 
+                                :disabled="!isPasswordValid || !passwordsMatch || !isNameValid">Create Account</button>
                         </div>
                     </div>
-                    <div class="has-text-centered mt-4">
-                        <p>Already have an account? <a href="/login">Login here</a></p>
-                    </div>
                 </form>
+                <p class="has-text-centered mt-4">
+                    Already have an account? <a href="/login">Log in</a>
+                </p>
             </div>
         </div>
     </div>

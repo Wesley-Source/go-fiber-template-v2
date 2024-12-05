@@ -9,6 +9,7 @@ import (
 
 type User struct {
 	gorm.Model
+	IsAdmin  bool `gorm:"default:false"`
 	Name     string
 	Email    string
 	Password string

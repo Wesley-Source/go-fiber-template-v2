@@ -3,6 +3,7 @@ package routes
 import (
 	"go-fiber-template-v2/app/database"
 	"go-fiber-template-v2/app/middleware"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -20,7 +21,10 @@ func Register(c *fiber.Ctx) error {
 	case "POST":
 		email := c.FormValue("email")
 		if !database.UserExistsbyEmail(email) {
-			middleware.RegisterUser(c)
+			err := middleware.RegisterUser(c)
+			if err != nil {
+				return c.SendString(err.Error())
+			}
 			return middleware.Redirect(c, "pages/login", "/login")
 		}
 	}
@@ -56,8 +60,31 @@ func Logout(c *fiber.Ctx) error {
 
 	switch c.Method() {
 	case "GET":
-		middleware.ClearSessionCookie(c)
+		err := middleware.ClearSessionCookie(c)
+		if err != nil {
+			return c.SendStatus(fiber.StatusInternalServerError)
+		}
 		return middleware.Redirect(c, "pages/index", "/")
 	}
 	return UnknownRoute(c)
+}
+
+func Admin(c *fiber.Ctx) error {
+	if middleware.AdminAuth(c) != nil {
+		return UnknownRoute(c)
+	}
+	return middleware.Redirect(c, "pages/admin", "/admin")
+}
+
+func CheckEmail(c *fiber.Ctx) error {
+	time.Sleep(2 * time.Second)
+	email := c.Query("email")
+	if email == "" {
+		return c.SendString("")
+	}
+
+	if database.UserExistsbyEmail(email) {
+		return c.SendString("False")
+	}
+	return c.SendString("True")
 }

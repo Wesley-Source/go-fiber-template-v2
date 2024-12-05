@@ -44,8 +44,14 @@
 
         {{if .UserID}}
         <div class="navbar-end">
+            <a href="" class="navbar-item">Hi, {{.Name}}!</a>
             <div class="navbar-item">
                 <div class="buttons">
+                    {{if .IsAdmin}}
+                    <a class="button is-primary" href="/admin">
+                        <strong>Admin</strong>
+                    </a>
+                    {{end}}
                     <a class="button is-primary" href="/dashboard">
                         <strong>Dashboard</strong>
                     </a>

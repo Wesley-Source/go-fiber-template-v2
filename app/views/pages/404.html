@@ -1,25 +1,54 @@
 <div class="container">
     <div class="columns is-centered is-vcentered" style="min-height: 80vh;">
         <div class="column is-half-desktop is-two-thirds-tablet">
-            <div class="box has-text-centered">
-                <h1 class="title is-1 has-text-danger">404</h1>
-                <p class="title is-4 mb-4">Page Not Found</p>
-                <p class="subtitle is-6 has-text-grey mb-6">The page you're looking for doesn't exist or has been moved.</p>
-                <div class="buttons is-centered">
-                    <a href="/" class="button is-primary">
-                        <span class="icon">
-                            <i class="fas fa-home"></i>
-                        </span>
-                        <span>Go Home</span>
-                    </a>
-                    <button class="button is-light" onclick="history.back()">
-                        <span class="icon">
-                            <i class="fas fa-arrow-left"></i>
-                        </span>
-                        <span>Go Back</span>
-                    </button>
+            <div class="box has-text-centered p-6">
+                <figure class="image is-128x128 is-inline-block mb-4">
+                    <i class="fas fa-robot has-text-info" style="font-size: 8rem;"></i>
+                </figure>
+                <h1 class="title is-2 mb-2">Beep Boop!</h1>
+                <p class="title is-4 has-text-primary mb-4">Oh no! Our robot got lost in cyberspace</p>
+                <div class="content has-text-grey mb-5">
+                    <p class="is-size-5">🤖 Error 404: Page Not Found</p>
+                    <p>Don't worry! Our friendly robot is working hard to find what you're looking for.</p>
+                    <p class="is-italic has-text-grey-light">"In the meantime, would you like to play a game of binary?"</p>
+                </div>
+                <div class="field is-grouped is-grouped-centered">
+                    <p class="control">
+                        <a href="/" class="button is-info is-rounded">
+                            <span class="icon">
+                                <i class="fas fa-home"></i>
+                            </span>
+                            <span>Take Me Home</span>
+                        </a>
+                    </p>
+                    <p class="control">
+                        <button onclick="history.back()" class="button is-light is-rounded">
+                            <span class="icon">
+                                <i class="fas fa-undo"></i>
+                            </span>
+                            <span>Go Back</span>
+                        </button>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .fa-robot {
+        animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-20px);
+        }
+        100% {
+            transform: translateY(0px);
+        }
+    }
+</style>
