@@ -3,7 +3,7 @@ package routes
 import (
 	"go-fiber-template-v2/app/database"
 	"go-fiber-template-v2/app/middleware"
-	"time"
+	"log"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -77,14 +77,21 @@ func Admin(c *fiber.Ctx) error {
 }
 
 func CheckEmail(c *fiber.Ctx) error {
-	time.Sleep(2 * time.Second)
+	// Adicione mais logs para depuração
+	log.Println("Checking email...")
 	email := c.Query("email")
+	log.Printf("Received email: %s", email)
+
 	if email == "" {
+		log.Println("Empty email")
 		return c.SendString("")
 	}
 
-	if database.UserExistsbyEmail(email) {
-		return c.SendString("False")
+	exists := database.UserExistsbyEmail(email)
+	log.Printf("Email exists: %v", exists)
+
+	if exists {
+		return c.SendString("Taken")
 	}
-	return c.SendString("True")
+	return c.SendString("Free")
 }

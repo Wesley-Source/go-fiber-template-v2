@@ -6,9 +6,14 @@
                 <form hx-post="/register" hx-indicator="#progress-bar" x-data="{
                     name: '',
                     email: '',
-                    get isNameValid() { return this.name.length >= 3 },
+                    emailStatus: '',
+                    get isEmailValid() { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email) },
+                    get isEmailFree() { return this.emailStatus === 'Free' },
+                    get isEmailGood() { return this.isEmailValid && this.isEmailFree },
+
                     password: '',
                     confirmPassword: '',
+                    get isNameValid() { return this.name.length >= 3 },
                     get isLengthValid() { return this.password.length >= 8 },
                     get hasUpperCase() { return /[A-Z]/.test(this.password) },
                     get hasNumber() { return /[0-9]/.test(this.password) },
@@ -39,11 +44,18 @@
                     <div class="field">
                         <label for="email" class="label">Email</label>
                         <div class="control has-icons-left">
-                            <input class="input" type="email" name="email" id="email" placeholder="your@email.com" required>
+                            <input :class="{!isEmailGood ? 'is-danger' : 'is-success'}" hx-get="/check-email" hx-target="#email-status" hx-trigger="keyup changed delay:1s" class="input" x-model="email" type="email" name="email" id="email" placeholder="your@email.com" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-envelope"></i>
                             </span>
                         </div>
+                        <div class="help" x-show="email">
+                            <p class="has-text-danger" x-show="!isEmailValid">
+                                <i class="fas fa-times"></i>
+                                Invalid email
+                            </p>
+                        </div>
+                        <div id="email-status" class="is-hidden" @htmx:after-request="emailStatus = $event.detail.xhr.responseText"></div>
                     </div>
 
                     <div class="field">
@@ -93,7 +105,7 @@
                     <div class="field mt-5">
                         <div class="control">
                             <button type="submit" class="button is-primary is-fullwidth" 
-                                :disabled="!isPasswordValid || !passwordsMatch || !isNameValid">Create Account</button>
+                                :disabled="!isPasswordValid || !passwordsMatch || !isNameValid || !isEmailGood">Create Account</button>
                         </div>
                     </div>
                 </form>
