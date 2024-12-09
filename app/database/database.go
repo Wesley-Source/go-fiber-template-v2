@@ -46,3 +46,9 @@ func SearchUserByEmail(email string) User {
 	Database.Where("email = ?", email).First(&user)
 	return user
 }
+
+func GetAllUsers() []User {
+	var users []User
+	Database.Find(&users)
+	return users
+}

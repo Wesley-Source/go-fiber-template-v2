@@ -19,6 +19,14 @@ import (
 
 var Session *session.Store
 
+type User struct {
+	ID       uint
+	Name     string
+	Email    string
+	Password string
+	IsAdmin  bool
+}
+
 func Render(c *fiber.Ctx, view string, partial ...bool) error {
 
 	data := fiber.Map{}
@@ -34,6 +42,20 @@ func Render(c *fiber.Ctx, view string, partial ...bool) error {
 		data["UserID"] = userID
 		data["Name"] = user.Name
 		data["Email"] = user.Email
+		if user.IsAdmin {
+			var users []User
+			for _, user := range database.GetAllUsers() {
+				new_user := User{
+					ID:       user.ID,
+					Name:     user.Name,
+					Email:    user.Email,
+					Password: user.Password,
+					IsAdmin:  user.IsAdmin,
+				}
+				users = append(users, new_user)
+			}
+			data["Users"] = users
+		}
 	}
 
 	if partial != nil && partial[0] {
@@ -47,7 +69,6 @@ func Redirect(c *fiber.Ctx, view, route string) error {
 		c.Set("HX-Redirect", route)
 		return c.SendStatus(fiber.StatusOK)
 	}
-
 	return Render(c, view)
 }
 
@@ -110,7 +131,7 @@ func AdminAuth(c *fiber.Ctx) error {
 	if user.IsAdmin {
 		return Redirect(c, "pages/admin", "/admin")
 	}
-	return Render(c, "pages/404")
+	return Render(c, "pages/404", false)
 }
 
 // SetSessionCookie stores the user ID in the session
@@ -248,6 +269,19 @@ func RegisterUser(c *fiber.Ctx) error {
 	email := c.FormValue("email")
 	password := c.FormValue("password")
 
+	err := CreateUser(c, name, email, password)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func DeleteUser(userID uint) error {
+	return nil
+}
+
+func CreateUser(c *fiber.Ctx, name, email, password string) error {
+
 	// Validate all inputs
 	if errors := ValidateInput(name, email, password); len(errors) > 0 {
 		// Return first error as string for HTMX
@@ -260,6 +294,7 @@ func RegisterUser(c *fiber.Ctx) error {
 		Name:     name,
 		Email:    email,
 		Password: hashedPassword,
+		IsAdmin:  true,
 	}
 
 	if err := database.Database.Create(&user); err != nil {
